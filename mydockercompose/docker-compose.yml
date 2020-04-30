@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+   mysqldatab:
+      image: mysql:5.7
+      
+      restart: always
+      environment:
+         MYSQL_ROOT_PASSWORD: root123
+         MYSQL_USER: akhilesh
+         MYSQL_PASSWORD: akhil2345
+         MYSQL_DATABASE: wpdb
+
+      volumes:
+         - mysql_storage_new:/var/lib/mysql
+         
+   wp_os:
+      image: wordpress:5.1.1-php7.3-apache
+     
+      restart: always
+      depends_on:
+         - mysqldatab
+      ports:
+         - 8081:80
+      environment:
+         WORDPRESS_DB_HOST: mysqldatab
+         WORDPRESS_DB_USER: akhilesh
+         WORDPRESS_DB_PASSWORD: akhil2345
+         WORDPRESS_DB_NAME: wpdb
+      
+      volumes:
+         - wp_storage_new:/var/www/html      
+
+volumes:
+   mysql_storage_new:
+   wp_storage_new:
+            
